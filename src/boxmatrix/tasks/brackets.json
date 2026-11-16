@@ -1,0 +1,38 @@
+{
+  "id": "brackets",
+  "title": "Balanced brackets",
+  "prompt": "Write `balanced(s)` returning True when every (), [] and {} in s is properly nested and closed. Other characters are ignored.",
+  "entrypoint": "balanced",
+  "cases": [
+    {
+      "args": [
+        "()[]{}"
+      ],
+      "expected": true
+    },
+    {
+      "args": [
+        "(]"
+      ],
+      "expected": false
+    },
+    {
+      "args": [
+        "{[()]}"
+      ],
+      "expected": true
+    },
+    {
+      "args": [
+        "((("
+      ],
+      "expected": false
+    },
+    {
+      "args": [
+        "a(b)c]"
+      ],
+      "expected": false
+    }
+  ]
+}

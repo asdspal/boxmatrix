@@ -1,0 +1,7 @@
+input: messy_resources.csv, 24 rows
+model openai/gpt-6-luna: hints for 19 rows in 44105 ms, cost $0.00068
+Z3 gate: unsat_proven_safe in 9.41 ms
+sandbox 8eb1182b... running (egress closed)
+sandbox stdout: {"rows_in": 24, "rows_out": 17, "removed": 7, "needs_review": 0} | exit 0
+sandbox deleted. alive 4.9s, total cost about $0.00080
+results in results/messy/ (wall 6.6s)

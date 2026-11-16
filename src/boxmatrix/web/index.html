@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><title>BoxMatrix</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+:root{--bg:#0d1117;--panel:#161b22;--line:#30363d;--fg:#e6edf3;--mut:#8b949e;--ok:#2ea043;--bad:#da3633;--warn:#d29922;--run:#388bfd}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.45 system-ui,sans-serif}
+header{display:flex;gap:16px;align-items:center;padding:12px 20px;border-bottom:1px solid var(--line)}
+h1{font-size:18px;margin:0}.badge{padding:2px 8px;border-radius:10px;background:var(--line);font-size:12px}
+.badge.live{background:var(--bad)}.badge.mock{background:var(--run)}
+#cost{margin-left:auto;font:600 18px ui-monospace,monospace}
+#bar{height:4px;background:var(--line)}#barfill{height:4px;width:0;background:var(--ok);transition:width .3s}
+.controls{display:flex;flex-wrap:wrap;gap:12px;align-items:end;padding:12px 20px;background:var(--panel);border-bottom:1px solid var(--line)}
+label{display:flex;flex-direction:column;font-size:12px;color:var(--mut);gap:3px}
+select,input[type=number],input[type=text]{background:var(--bg);color:var(--fg);border:1px solid var(--line);border-radius:6px;padding:6px 8px}
+button{background:var(--ok);color:#fff;border:0;border-radius:6px;padding:8px 18px;font-weight:600;cursor:pointer}
+button:disabled{opacity:.4;cursor:not-allowed}
+main{display:grid;grid-template-columns:minmax(0,1fr) 420px;gap:16px;padding:16px 20px}
+table{border-collapse:separate;border-spacing:4px;width:100%}
+th{font-size:12px;color:var(--mut);font-weight:600;text-align:left}th.m{text-align:center;max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+td.task{font:12px ui-monospace,monospace;white-space:nowrap}td.task small{color:var(--mut);margin-left:6px}
+td.cell{height:38px;min-width:92px;border-radius:6px;text-align:center;font-size:12px;cursor:pointer;background:var(--panel);border:1px solid var(--line)}
+td.cell.running{border-color:var(--run);animation:p 1s infinite}td.cell.pass{background:#12351c;border-color:var(--ok)}
+td.cell.fail{background:#3b1514;border-color:var(--bad)}td.cell.blocked{background:#3a2c0a;border-color:var(--warn)}
+td.cell.error,td.cell.skipped_budget{background:#2a2a2a;border-color:#666}
+td.cell.sel{outline:2px solid #fff}
+@keyframes p{50%{background:#10264a}}
+.heal{color:var(--warn);font-weight:700}
+aside{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:14px;min-height:300px;overflow:auto;max-height:80vh}
+pre{background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:10px;overflow:auto;font-size:12px;margin:6px 0}
+.att{border-left:3px solid var(--line);padding-left:8px;margin:6px 0}.att.safe{border-color:var(--ok)}.att.unsafe{border-color:var(--warn)}
+.leader{padding:0 20px 24px}.leader table td,.leader table th{padding:6px 10px;border-bottom:1px solid var(--line)}
+.rec{margin:10px 20px;padding:10px 14px;border:1px solid var(--ok);border-radius:8px;background:#12351c;display:none}
+.mut{color:var(--mut)}
+</style></head><body>
+<header><h1>BoxMatrix</h1><span id="mode" class="badge">idle</span>
+<span class="mut">Z3-proven code, fresh sandboxes, cost per pass</span><span id="cost">$0.0000</span></header>
+<div id="bar"><div id="barfill"></div></div>
+<div class="controls">
+ <label>Mode<select id="mock"><option value="true">mock (free, offline)</option><option value="false" id="liveopt">live on GMI (spends money)</option></select></label>
+ <label>Suite<select id="suite"></select></label>
+ <label>Safety policy<select id="policy"></select></label>
+ <label>Tasks (0 = all)<input id="tasks" type="number" min="0" value="0" style="width:80px"></label>
+ <label>Budget cap $<input id="budget" type="number" step="0.05" min="0.01" value="0.25" style="width:80px"></label>
+ <label>Models (comma list, blank = default)<input id="models" type="text" style="width:300px"></label>
+ <label><span>Red-team prompt</span><input id="chaos" type="checkbox"></label>
+ <button id="go">Run matrix</button><span id="msg" class="mut"></span>
+</div>
+<div class="rec" id="rec"></div>
+<main><section><table id="grid"></table></section>
+<aside id="side"><span class="mut">Click a cell to see the code, the Z3 verdicts and the signed receipt.</span></aside></main>
+<div class="leader"><h3>Leaderboard</h3><table id="lb"></table></div>
+<script>
+const $=id=>document.getElementById(id);let cells={},models=[],tasks=[],budget=0.25,selected=null,cfg={};
+const esc=s=>String(s).replace(/[&<>]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[c]));
+async function init(){cfg=await (await fetch('/api/config')).json();
+ $('suite').innerHTML=cfg.suites.map(s=>`<option>${s}</option>`).join('');
+ $('policy').innerHTML=cfg.policies.slice().sort((a,b)=>(b==='strict.toml')-(a==='strict.toml')).map(s=>`<option>${s}</option>`).join('');
+ if(!cfg.allow_live){$('liveopt').disabled=true;$('liveopt').textContent='live (start server with --live)'}
+ $('budget').max=cfg.max_budget;$('budget').value=Math.min(0.25,cfg.max_budget);
+ const es=new EventSource('/api/events');es.onmessage=e=>handle(JSON.parse(e.data));}
+$('go').onclick=async()=>{$('msg').textContent='';
+ const body={mock:$('mock').value==='true',suite:$('suite').value,policy:$('policy').value,tasks:+$('tasks').value,
+  budget:+$('budget').value,chaos:$('chaos').checked,models:$('models').value.split(',').map(s=>s.trim()).filter(Boolean)};
+ const r=await fetch('/api/run',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)});
+ if(!r.ok){$('msg').textContent=(await r.json()).detail;return}$('go').disabled=true;};
+function handle(ev){
+ if(ev.type==='start'){cells={};models=ev.models;tasks=ev.tasks;budget=ev.budget;selected=null;$('rec').style.display='none';
+  $('mode').textContent=ev.mode;$('mode').className='badge '+ev.mode;$('go').disabled=true;$('cost').textContent='$0.0000';
+  $('side').innerHTML='<span class="mut">Click a cell to see the code, the Z3 verdicts and the signed receipt.</span>';draw();}
+ else if(ev.type==='cell_start'){cells[ev.task+'|'+ev.model]={status:'running'};draw()}
+ else if(ev.type==='cell_done'){const c=ev.cell;cells[c.task_id+'|'+c.model]=c;setCost(ev.spent);draw();if(selected===c.task_id+'|'+c.model)show(selected)}
+ else if(ev.type==='done'){$('go').disabled=false;setCost(ev.spent);const r=ev.recommendation;
+  if(r){$('rec').style.display='block';$('rec').innerHTML=`Cheapest model with pass rate &ge; 80%: <b>${esc(r.model)}</b> at $${r.cost_per_pass_usd.toFixed(5)} per passing task`}}
+ else if(ev.type==='error'){$('go').disabled=false;$('msg').textContent=ev.message}}
+function setCost(v){$('cost').textContent='$'+v.toFixed(4);$('barfill').style.width=Math.min(100,100*v/budget)+'%'}
+function label(c){if(!c)return '';if(c.status==='running')return 'running…';
+ const heal=c.status==='pass'&&c.attempts>1?` <span class="heal">healed x${c.attempts-1}</span>`:'';
+ if(c.status==='blocked')return 'blocked by Z3';if(c.status==='pass'||c.status==='fail')return `${c.passed}/${c.total}${heal}`;return c.status}
+function draw(){let h='<tr><th></th>'+models.map(m=>`<th class="m" title="${esc(m)}">${esc(m.split('/').pop())}</th>`).join('')+'</tr>';
+ for(const t of tasks){h+=`<tr><td class="task">${esc(t.id)}<small>${t.suite}</small></td>`;
+  for(const m of models){const k=t.id+'|'+m,c=cells[k];h+=`<td class="cell ${c?c.status:''} ${selected===k?'sel':''}" onclick="show('${k}')">${label(c)}</td>`}h+='</tr>'}
+ $('grid').innerHTML=h;board()}
+function board(){const rows=models.map(m=>{const cs=tasks.map(t=>cells[t.id+'|'+m]).filter(c=>c&&c.status!=='running');
+  const pass=cs.filter(c=>c.status==='pass').length,cost=cs.reduce((a,c)=>a+(c.cost||0),0);
+  return {m,n:cs.length,pass,blocked:cs.filter(c=>c.status==='blocked').length,healed:cs.filter(c=>c.status==='pass'&&c.attempts>1).length,cost,cpp:pass?cost/pass:null}});
+ rows.sort((a,b)=>(b.pass/(b.n||1))-(a.pass/(a.n||1))||a.cost-b.cost);
+ $('lb').innerHTML='<tr><th>model</th><th>pass</th><th>healed</th><th>blocked</th><th>cost</th><th>$ per pass</th></tr>'+
+  rows.map(r=>`<tr><td>${esc(r.m)}</td><td>${r.pass}/${r.n}</td><td>${r.healed}</td><td>${r.blocked}</td><td>$${r.cost.toFixed(5)}</td><td>${r.cpp===null?'n/a':'$'+r.cpp.toFixed(5)}</td></tr>`).join('')}
+function show(k){selected=k;draw();const c=cells[k];if(!c||c.status==='running')return;
+ let h=`<h3>${esc(c.task_id)} <span class="mut">on ${esc(c.model)}</span></h3><div>status <b>${c.status}</b>, tests ${c.passed}/${c.total}, attempts ${c.attempts}, cost $${(c.cost||0).toFixed(5)}</div>`;
+ (c.verdicts||[]).forEach((v,i)=>{const safe=v.verdict==='unsat_proven_safe';
+  h+=`<div class="att ${safe?'safe':'unsafe'}"><b>Attempt ${i+1}:</b> ${safe?'Z3 proved it safe (unsat)':'Z3 found a violation (sat)'} in ${v.solve_ms} ms${safe?'':'<br>rules: '+esc((v.violations||[]).join(', '))}`+
+  (safe?'':Object.entries(v.evidence||{}).map(([k,a])=>a.map(x=>`<br><span class="mut">${esc(k)}: ${esc(x)}</span>`).join('')).join(''))+'</div>'});
+ if(c.detail)h+=`<div class="mut">${esc(c.detail)}</div>`;
+ h+=`<div>Final code</div><pre>${esc(c.code||'')}</pre>`;
+ if(c.receipt&&c.receipt.payload){h+=`<div>Signed receipt (Ed25519)</div><pre>${esc(JSON.stringify(c.receipt.payload,null,1))}</pre><button onclick="ver('${k}')">Verify signature</button> <span id="vr"></span>`}
+ $('side').innerHTML=h}
+async function ver(k){const c=cells[k];const r=await (await fetch('/api/verify',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({receipt:c.receipt,code:c.code})})).json();
+ $('vr').textContent=r.ok?'valid: signature and code hash match':'INVALID: '+r.reason;$('vr').style.color=r.ok?'var(--ok)':'var(--bad)'}
+init();
+</script></body></html>

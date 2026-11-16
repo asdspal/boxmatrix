@@ -1,0 +1,25 @@
+# secrets and local state
+.env
+.env.*
+!.env.example
+.boxmatrix/
+# environments and caches
+.venv/
+__pycache__/
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+# generated run output
+reports/
+# personal notes, not part of the project
+APPLY.md
+# local planning notes and demo scripts, kept on disk but not published
+DEMO.md
+DEMO-3MIN.md
+progress.md
+implementation-plan.md
+*.pptx
+.~lock.*
+SOCIAL.md
+ENTRY_POST.md
+POST.md

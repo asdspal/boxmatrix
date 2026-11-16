@@ -1,0 +1,7 @@
+input: sample_resources.csv, 7 rows
+model openai/gpt-6-luna: hints for 5 rows in 13325 ms, cost $0.00016
+Z3 gate: unsat_proven_safe in 10.06 ms
+sandbox 76af7d1f... running (egress closed)
+sandbox stdout: {"rows_in": 7, "rows_out": 4, "removed": 2, "needs_review": 1} | exit 0
+sandbox deleted. alive 6.4s, total cost about $0.00031
+results in results/starter/ (wall 8.1s)

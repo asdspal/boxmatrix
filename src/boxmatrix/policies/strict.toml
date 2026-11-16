@@ -1,0 +1,6 @@
+# Default: pure computation only. No network, no processes, no file writes.
+[policy]
+allow_net = false
+allow_proc = false
+allow_file_write = false
+allowed_hosts = []

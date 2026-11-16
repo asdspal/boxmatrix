@@ -1,0 +1,43 @@
+{
+  "id": "lcs",
+  "title": "Longest common subsequence",
+  "prompt": "Write `lcs_length(a, b)` returning the length of the longest common subsequence of strings a and b.",
+  "entrypoint": "lcs_length",
+  "cases": [
+    {
+      "args": [
+        "abcde",
+        "ace"
+      ],
+      "expected": 3
+    },
+    {
+      "args": [
+        "abc",
+        "abc"
+      ],
+      "expected": 3
+    },
+    {
+      "args": [
+        "abc",
+        "def"
+      ],
+      "expected": 0
+    },
+    {
+      "args": [
+        "",
+        ""
+      ],
+      "expected": 0
+    },
+    {
+      "args": [
+        "AGGTAB",
+        "GXTXAYB"
+      ],
+      "expected": 4
+    }
+  ]
+}

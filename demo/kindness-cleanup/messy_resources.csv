@@ -1,0 +1,25 @@
+name,url,category,description
+  Welcome Guide  ,https://example.org/welcome, getting started , Start here for a friendly introduction 
+Office Hours,https://example.org/office-hours, EVENTS, Ask a question together
+Welcome guide,https://example.org/welcome,Getting Started,Duplicate resource
+Sample Notebook,https://example.org/notebook, tutorials , A tiny worked example
+Broken Resource,not-a-url,Tutorials,Needs a valid link
+,https://example.org/forum,Community,Chat with other newcomers
+Contributing Checklist,https://example.org/contribute, how-to ,Steps for a first pull request
+Python Basics Video,http://WWW.Example.org/python-basics/?utm_source=newsletter&utm_medium=email,video,"Short video: variables, loops and functions"
+python basics video,https://example.org/python-basics,Videos,
+Git Cheat Sheet,https://example.org/git-cheatsheet#top,cheatsheets,One page of the commands you use every day
+Weekly Meetup,https://example.org/meetup/,meetups,Friendly evening chat every Thursday
+Code of Conduct,https://example.org/conduct,policy,How we treat each other
+Slack Invite,https://example.org/chat?fbclid=abc123,chat,Join the community chat
+Glossary,https://example.org/glossary,docs,Plain-language meaning of common terms
+Free Hosting Options,https://example.org/hosting,tools,
+Beginner Project Ideas,https://example.org/projects,Projects ,Ten small projects you can finish in a weekend
+Mentorship Program,example.org/mentors,mentoring,Get paired with a volunteer mentor
+Install Python,https://example.org/install-python,SETUP,Step by step for Windows Mac and Linux
+Install python,https://example.org/install-python/,setup,
+Q&A Forum,https://example.org/forum,Community,Ask anything no question is too small
+Style Guide,ftp://example.org/style,reference,Not a web link
+Accessibility Tips,https://example.org/a11y,guides,Make your first site usable for everyone
+   ,   ,   ,   
+Newsletter Archive,https://example.org/newsletter,misc,Past issues

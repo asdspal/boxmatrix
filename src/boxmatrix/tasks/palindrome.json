@@ -1,0 +1,38 @@
+{
+  "id": "palindrome",
+  "title": "Palindrome check",
+  "prompt": "Write `is_palindrome(s)` returning True when s reads the same forwards and backwards, ignoring case and every character that is not a letter or digit. The empty string is a palindrome.",
+  "entrypoint": "is_palindrome",
+  "cases": [
+    {
+      "args": [
+        "A man, a plan, a canal: Panama"
+      ],
+      "expected": true
+    },
+    {
+      "args": [
+        "race a car"
+      ],
+      "expected": false
+    },
+    {
+      "args": [
+        ""
+      ],
+      "expected": true
+    },
+    {
+      "args": [
+        "No 'x' in Nixon"
+      ],
+      "expected": true
+    },
+    {
+      "args": [
+        "ab"
+      ],
+      "expected": false
+    }
+  ]
+}

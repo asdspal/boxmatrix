@@ -1,0 +1,7 @@
+# Code may talk to the GMI inference API and nothing else.
+# The same host list is installed as the sandbox egress allowlist.
+[policy]
+allow_net = true
+allow_proc = false
+allow_file_write = false
+allowed_hosts = ["api.gmi-serving.com"]

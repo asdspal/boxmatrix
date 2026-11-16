@@ -1,0 +1,59 @@
+{
+  "id": "bankers_round",
+  "title": "Banker's rounding of money strings",
+  "suite": "hard",
+  "prompt": "Write `round_money(s)`. `s` is a decimal string such as '2.675'. Return the value rounded to 2 decimal places with round-half-to-even, as a string with exactly two decimals (e.g. '2.68', '2.66', '10.00'). Do not use floats.",
+  "entrypoint": "round_money",
+  "cases": [
+    {
+      "args": [
+        "2.675"
+      ],
+      "expected": "2.68"
+    },
+    {
+      "args": [
+        "2.665"
+      ],
+      "expected": "2.66"
+    },
+    {
+      "args": [
+        "10"
+      ],
+      "expected": "10.00"
+    },
+    {
+      "args": [
+        "0.005"
+      ],
+      "expected": "0.00"
+    },
+    {
+      "args": [
+        "0.015"
+      ],
+      "expected": "0.02"
+    },
+    {
+      "args": [
+        "1.234"
+      ],
+      "expected": "1.23"
+    },
+    {
+      "args": [
+        "-2.675"
+      ],
+      "expected": "-2.68"
+    },
+    {
+      "args": [
+        "100.995"
+      ],
+      "expected": "101.00"
+    }
+  ],
+  "reference": "from decimal import ROUND_HALF_EVEN, Decimal\n\ndef round_money(s):\n    return format(Decimal(s).quantize(Decimal('0.01'), rounding=ROUND_HALF_EVEN), 'f')\n",
+  "buggy": "def round_money(s):\n    return format(round(float(s), 2), '.2f')\n"
+}

@@ -1,0 +1,64 @@
+{
+  "id": "cents_split",
+  "title": "Split cents fairly",
+  "prompt": "Write `split_cents(total_cents, n)` splitting an integer number of cents among n people. Everyone gets total_cents // n and the first (total_cents % n) people get one extra cent. Return the list of n integers. The sum must equal total_cents. Raise ValueError if n < 1.",
+  "entrypoint": "split_cents",
+  "cases": [
+    {
+      "args": [
+        10,
+        3
+      ],
+      "expected": [
+        4,
+        3,
+        3
+      ]
+    },
+    {
+      "args": [
+        100,
+        4
+      ],
+      "expected": [
+        25,
+        25,
+        25,
+        25
+      ]
+    },
+    {
+      "args": [
+        0,
+        5
+      ],
+      "expected": [
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    },
+    {
+      "args": [
+        7,
+        1
+      ],
+      "expected": [
+        7
+      ]
+    },
+    {
+      "args": [
+        1,
+        3
+      ],
+      "expected": [
+        1,
+        0,
+        0
+      ]
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "model": "openai/gpt-6-luna",
+  "rows_in": 7,
+  "gate": "unsat_proven_safe",
+  "sandbox_seconds": 6.4,
+  "cost_usd": 0.000315,
+  "sandbox_result": {
+    "rows_in": 7,
+    "rows_out": 4,
+    "removed": 2,
+    "needs_review": 1
+  }
+}

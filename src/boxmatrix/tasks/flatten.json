@@ -1,0 +1,83 @@
+{
+  "id": "flatten",
+  "title": "Flatten nested lists",
+  "prompt": "Write `flatten(items)` returning a flat list of all non-list elements of an arbitrarily nested list, in order.",
+  "entrypoint": "flatten",
+  "cases": [
+    {
+      "args": [
+        [
+          1,
+          [
+            2,
+            [
+              3,
+              [
+                4
+              ]
+            ]
+          ],
+          5
+        ]
+      ],
+      "expected": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ]
+    },
+    {
+      "args": [
+        []
+      ],
+      "expected": []
+    },
+    {
+      "args": [
+        [
+          [],
+          [
+            []
+          ]
+        ]
+      ],
+      "expected": []
+    },
+    {
+      "args": [
+        [
+          1,
+          2,
+          3
+        ]
+      ],
+      "expected": [
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "args": [
+        [
+          [
+            "a"
+          ],
+          [
+            "b",
+            [
+              "c"
+            ]
+          ]
+        ]
+      ],
+      "expected": [
+        "a",
+        "b",
+        "c"
+      ]
+    }
+  ]
+}

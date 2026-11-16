@@ -1,0 +1,5 @@
+id,name,url,category,newcomer_tip,level,start_here,check_note
+r01,Welcome Guide,https://example.org/welcome,Getting Started,Start with a friendly introduction to feel welcome.,beginner,yes,
+r02,Contributing Checklist,https://example.org/contribute,Tutorials,Follow steps for making a first pull request.,beginner,,
+r03,Sample Notebook,https://example.org/notebook,Tutorials,Try a tiny worked example to learn by doing.,beginner,,
+r04,Office Hours,https://example.org/office-hours,Events,Ask a question together and connect with others.,any,,

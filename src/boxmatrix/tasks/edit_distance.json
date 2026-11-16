@@ -1,0 +1,59 @@
+{
+  "id": "edit_distance",
+  "title": "Edit distance",
+  "suite": "hard",
+  "prompt": "Write `edit_distance(a, b)` returning the Levenshtein distance (insert, delete, substitute each cost 1) between two strings.",
+  "entrypoint": "edit_distance",
+  "cases": [
+    {
+      "args": [
+        "kitten",
+        "sitting"
+      ],
+      "expected": 3
+    },
+    {
+      "args": [
+        "",
+        ""
+      ],
+      "expected": 0
+    },
+    {
+      "args": [
+        "abc",
+        ""
+      ],
+      "expected": 3
+    },
+    {
+      "args": [
+        "",
+        "abc"
+      ],
+      "expected": 3
+    },
+    {
+      "args": [
+        "flaw",
+        "lawn"
+      ],
+      "expected": 2
+    },
+    {
+      "args": [
+        "intention",
+        "execution"
+      ],
+      "expected": 5
+    },
+    {
+      "args": [
+        "same",
+        "same"
+      ],
+      "expected": 0
+    }
+  ],
+  "reference": "def edit_distance(a, b):\n    prev = list(range(len(b) + 1))\n    for i, x in enumerate(a, 1):\n        cur = [i]\n        for j, y in enumerate(b, 1):\n            cur.append(min(prev[j] + 1, cur[j - 1] + 1, prev[j - 1] + (x != y)))\n        prev = cur\n    return prev[-1]\n"
+}

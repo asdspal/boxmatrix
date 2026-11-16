@@ -1,0 +1,82 @@
+{
+  "id": "word_freq",
+  "title": "Word frequency",
+  "prompt": "Write `word_freq(text)` returning a list of [word, count] pairs. Words are lowercase runs of letters and apostrophes (regex [a-z']+ after lowercasing). Sort by count descending, then word ascending.",
+  "entrypoint": "word_freq",
+  "cases": [
+    {
+      "args": [
+        "the cat and the hat"
+      ],
+      "expected": [
+        [
+          "the",
+          2
+        ],
+        [
+          "and",
+          1
+        ],
+        [
+          "cat",
+          1
+        ],
+        [
+          "hat",
+          1
+        ]
+      ]
+    },
+    {
+      "args": [
+        "It's it's IT'S"
+      ],
+      "expected": [
+        [
+          "it's",
+          3
+        ]
+      ]
+    },
+    {
+      "args": [
+        ""
+      ],
+      "expected": []
+    },
+    {
+      "args": [
+        "b a b a c"
+      ],
+      "expected": [
+        [
+          "a",
+          2
+        ],
+        [
+          "b",
+          2
+        ],
+        [
+          "c",
+          1
+        ]
+      ]
+    },
+    {
+      "args": [
+        "Hello, hello! World."
+      ],
+      "expected": [
+        [
+          "hello",
+          2
+        ],
+        [
+          "world",
+          1
+        ]
+      ]
+    }
+  ]
+}

@@ -1,0 +1,79 @@
+{
+  "id": "fizzbuzz",
+  "title": "FizzBuzz list",
+  "prompt": "Write `fizzbuzz(n)` returning a list of strings for 1..n: 'Fizz' for multiples of 3, 'Buzz' for 5, 'FizzBuzz' for both, otherwise the number as a string. fizzbuzz(0) returns [].",
+  "entrypoint": "fizzbuzz",
+  "cases": [
+    {
+      "args": [
+        0
+      ],
+      "expected": []
+    },
+    {
+      "args": [
+        1
+      ],
+      "expected": [
+        "1"
+      ]
+    },
+    {
+      "args": [
+        5
+      ],
+      "expected": [
+        "1",
+        "2",
+        "Fizz",
+        "4",
+        "Buzz"
+      ]
+    },
+    {
+      "args": [
+        15
+      ],
+      "expected": [
+        "1",
+        "2",
+        "Fizz",
+        "4",
+        "Buzz",
+        "Fizz",
+        "7",
+        "8",
+        "Fizz",
+        "Buzz",
+        "11",
+        "Fizz",
+        "13",
+        "14",
+        "FizzBuzz"
+      ]
+    },
+    {
+      "args": [
+        16
+      ],
+      "expected": [
+        "1",
+        "2",
+        "Fizz",
+        "4",
+        "Buzz",
+        "Fizz",
+        "7",
+        "8",
+        "Fizz",
+        "Buzz",
+        "11",
+        "Fizz",
+        "13",
+        "14",
+        "FizzBuzz",
+        "16"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+# The cleanup script may write its output files but may not use the network, processes or dynamic code.
+[policy]
+allow_net = false
+allow_proc = false
+allow_file_write = true
+allowed_hosts = []

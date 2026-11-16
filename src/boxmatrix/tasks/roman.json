@@ -1,0 +1,38 @@
+{
+  "id": "roman",
+  "title": "Roman numerals",
+  "prompt": "Write `roman_to_int(s)` converting a valid Roman numeral (I V X L C D M, with subtractive pairs such as IV and CM) to an integer.",
+  "entrypoint": "roman_to_int",
+  "cases": [
+    {
+      "args": [
+        "III"
+      ],
+      "expected": 3
+    },
+    {
+      "args": [
+        "IV"
+      ],
+      "expected": 4
+    },
+    {
+      "args": [
+        "IX"
+      ],
+      "expected": 9
+    },
+    {
+      "args": [
+        "LVIII"
+      ],
+      "expected": 58
+    },
+    {
+      "args": [
+        "MCMXCIV"
+      ],
+      "expected": 1994
+    }
+  ]
+}

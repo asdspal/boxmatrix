@@ -1,0 +1,76 @@
+{
+  "id": "csv_split",
+  "title": "CSV line parser",
+  "suite": "hard",
+  "prompt": "Write `csv_split(line)` splitting one CSV line into a list of fields. Fields may be wrapped in double quotes, a quoted field may contain commas, and a doubled quote inside a quoted field means one literal quote. An empty line returns [''] and `a,,b` returns ['a', '', 'b']. Do not import csv.",
+  "entrypoint": "csv_split",
+  "cases": [
+    {
+      "args": [
+        "a,b,c"
+      ],
+      "expected": [
+        "a",
+        "b",
+        "c"
+      ]
+    },
+    {
+      "args": [
+        "a,,b"
+      ],
+      "expected": [
+        "a",
+        "",
+        "b"
+      ]
+    },
+    {
+      "args": [
+        ""
+      ],
+      "expected": [
+        ""
+      ]
+    },
+    {
+      "args": [
+        "\"x,y\",z"
+      ],
+      "expected": [
+        "x,y",
+        "z"
+      ]
+    },
+    {
+      "args": [
+        "\"say \"\"hi\"\"\",2"
+      ],
+      "expected": [
+        "say \"hi\"",
+        "2"
+      ]
+    },
+    {
+      "args": [
+        "\"\",\"\""
+      ],
+      "expected": [
+        "",
+        ""
+      ]
+    },
+    {
+      "args": [
+        "one,\"two, three\",four"
+      ],
+      "expected": [
+        "one",
+        "two, three",
+        "four"
+      ]
+    }
+  ],
+  "reference": "def csv_split(line):\n    out, cur, inq, i = [], [], False, 0\n    while i < len(line):\n        ch = line[i]\n        if inq:\n            if ch == '\"':\n                if i + 1 < len(line) and line[i + 1] == '\"':\n                    cur.append('\"')\n                    i += 1\n                else:\n                    inq = False\n            else:\n                cur.append(ch)\n        elif ch == '\"':\n            inq = True\n        elif ch == ',':\n            out.append(''.join(cur))\n            cur = []\n        else:\n            cur.append(ch)\n        i += 1\n    out.append(''.join(cur))\n    return out\n",
+  "buggy": "def csv_split(line):\n    return line.split(',')\n"
+}

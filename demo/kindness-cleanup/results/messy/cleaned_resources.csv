@@ -1,0 +1,18 @@
+id,name,url,category,newcomer_tip,level,start_here,check_note
+r01,Install Python,https://example.org/install-python,Getting Started,Follow step-by-step instructions to install Python on your system.,beginner,yes,
+r02,Welcome Guide,https://example.org/welcome,Getting Started,Start here for a friendly introduction to the community.,beginner,yes,
+r03,Accessibility Tips,https://example.org/a11y,Tutorials,Learn ways to make your first site usable for everyone.,beginner,,
+r04,Beginner Project Ideas,https://example.org/projects,Tutorials,Find a small project you can finish in a weekend.,beginner,,
+r05,Contributing Checklist,https://example.org/contribute,Tutorials,Follow the steps as you prepare your first pull request.,beginner,,
+r06,Python Basics Video,https://example.org/python-basics,Tutorials,"Learn about variables, loops, and functions in a short video.",beginner,,removed tracking
+r07,Sample Notebook,https://example.org/notebook,Tutorials,Try a tiny worked example to see how things come together.,beginner,,
+r08,Office Hours,https://example.org/office-hours,Events,Bring a question and ask it together in a welcoming setting.,any,,
+r09,Weekly Meetup,https://example.org/meetup,Events,Join a friendly evening chat every Thursday.,any,,
+r10,Code of Conduct,https://example.org/conduct,Community,Learn how community members treat each other.,any,,
+r11,Mentorship Program,https://example.org/mentors,Community,Get paired with a volunteer mentor for support.,any,,added https
+r12,Q&A Forum,https://example.org/forum,Community,Ask anything in a forum where no question is too small.,any,,
+r13,Slack Invite,https://example.org/chat,Community,Join the community chat to connect with others.,any,,removed tracking
+r14,Free Hosting Options,https://example.org/hosting,Tools,Explore hosting options as you get started.,any,,
+r15,Git Cheat Sheet,https://example.org/git-cheatsheet,Tools,Find everyday commands in one handy place.,beginner,,
+r16,Glossary,https://example.org/glossary,Reference,Look up plain-language meanings of common terms.,beginner,,
+r17,Newsletter Archive,https://example.org/newsletter,Reference,Browse past newsletter issues to catch up.,any,,
